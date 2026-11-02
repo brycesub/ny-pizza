@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>NY Pizza at Home</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: red hero, black control band and white results panel, using the
+   colours and type of doughguy.co. Space Mono for headings, labels and numbers;
+   DM Sans for running text so the steps stay readable on a phone. */
+:root {
+  --tile: #f5eed8;
+  --ticket: #ffffff;
+  --ink: #1a1a1a;
+  --muted: #5a4a3a;
+  --rule: #d9cfb2;
+  --tomato: #c22e25;
+  --brand-red: #e03a2f;
+  --hero: #e03a2f;
+  --on-hero: #ffffff;
+  --hero-accent: #f5c842;
+  --on-tomato: #f5eed8;
+  --band: #1a1a1a;
+  --nav: #1a1a1a;
+  --on-nav: #f5eed8;
+  --cheese: #f5c842;
+  --cheese-wash: #fbf3cf;
+  --display: "Space Mono", "Courier New", monospace;
+  --body: "DM Sans", system-ui, -apple-system, sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --tile: #1a1a1a;
+    --ticket: #1a1a1a;
+    --ink: #f5eed8;
+    --muted: #c9c3b0;
+    --rule: #443f33;
+    --tomato: #ff7a6e;
+    --on-tomato: #f5eed8;
+    --band: #262626;
+    --nav: #262626;
+    --cheese-wash: #332b10;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --tile: #1a1a1a;
+  --ticket: #1a1a1a;
+  --ink: #f5eed8;
+  --muted: #c9c3b0;
+  --rule: #443f33;
+  --tomato: #ff7a6e;
+  --on-tomato: #f5eed8;
+  --band: #262626;
+  --nav: #262626;
+  --cheese-wash: #332b10;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--tile);
+  color: var(--ink);
+  font: 400 1.125rem/1.55 var(--body);
+}
+a { color: var(--tomato); text-underline-offset: 0.15em; }
+:focus-visible { outline: 3px solid var(--cheese); outline-offset: 2px; }
+
+.wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.25rem; }
+.measure { max-width: 42rem; }
+
+h1, h2 { font-family: var(--display); font-weight: 700; text-transform: uppercase; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2.25rem, 10.5vw, 5rem); line-height: 1.02; letter-spacing: -0.02em; color: var(--on-hero); }
+h1 span { display: block; color: var(--hero-accent); }
+h2 { font-size: clamp(1.7rem, 5.5vw, 2.75rem); line-height: 1.1; letter-spacing: -0.01em; color: var(--tomato); }
+h3 { font-family: var(--display); font-weight: 700; font-size: 1.15rem; line-height: 1.3; margin: 0; text-wrap: balance; }
+p { margin: 0; }
+
+/* Header */
+.masthead { background: var(--hero); color: var(--on-hero); padding: 3rem 0 2.75rem; }
+.masthead .wrap { display: grid; gap: 1.1rem; }
+.lede { font-size: 1.3rem; font-weight: 700; line-height: 1.4; max-width: 38rem; }
+.notice { padding: 1rem 0; border-bottom: 1px solid var(--rule); }
+.byline { color: var(--ink); font-size: 1rem; max-width: 42rem; }
+
+/* Sticky jump links */
+.jump {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--nav);
+}
+.jump ul {
+  list-style: none; margin: 0 auto; padding: 0 0.75rem;
+  max-width: 68rem;
+  display: flex; justify-content: space-between; gap: 0.25rem;
+}
+.jump a {
+  display: block; padding: 0.7rem 0.5rem; min-height: 44px;
+  font-family: var(--display); font-weight: 700; font-size: 0.85rem; text-transform: uppercase;
+  color: var(--on-nav); text-decoration: none; line-height: 1.6;
+}
+.jump a:hover { color: var(--hero-accent); text-decoration: underline; }
+.jump :focus-visible { outline-color: var(--hero-accent); }
+@media (min-width: 40rem) { .jump ul { justify-content: flex-start; gap: 1.5rem; padding: 0 0.75rem; } }
+
+section { scroll-margin-top: 3.5rem; }
+.block { padding: 3.25rem 0; }
+.block > .wrap { display: grid; gap: 1.75rem; }
+.stack { display: grid; gap: 1rem; }
+
+/* Game plan timeline */
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.timeline li {
+  display: grid; grid-template-columns: 7.25rem 1fr; gap: 1rem;
+  padding: 0.9rem 0; border-top: 1px solid var(--rule);
+}
+.timeline li:last-child { border-bottom: 1px solid var(--rule); }
+.when { font-family: var(--display); font-weight: 700; font-size: 1rem; color: var(--tomato); }
+.timeline p + p { color: var(--muted); font-size: 1rem; }
+@media (min-width: 40rem) { .timeline li { grid-template-columns: 11rem 1fr; } }
+
+/* Dough band and ticket */
+.band { background: var(--band); color: var(--on-tomato); padding: 3.25rem 0 3.75rem; }
+.band h2 { color: var(--on-tomato); }
+.band a { color: var(--on-tomato); }
+.dough-grid { display: grid; gap: 2rem; align-items: start; margin-top: 1.5rem; }
+@media (min-width: 56rem) { .dough-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 3.5rem; } }
+
+.controls { display: grid; gap: 1.75rem; }
+.field { display: grid; gap: 0.5rem; border: 0; margin: 0; padding: 0; min-width: 0; }
+.field-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; font-family: var(--display); font-weight: 700; font-size: 0.95rem; text-transform: uppercase; padding: 0; }
+.readout { font-family: var(--display); font-weight: 700; font-size: 2rem; line-height: 1; color: var(--cheese); }
+input[type="range"] { width: 100%; height: 44px; margin: 0; accent-color: var(--brand-red); cursor: pointer; }
+.band :focus-visible { outline-color: var(--cheese); }
+.segments { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+.segments input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.segments label { display: block; text-align: center; padding: 0.7rem 0.25rem; font-family: var(--display); font-weight: 700; font-size: 0.9rem; text-transform: uppercase; cursor: pointer; min-height: 44px; border: 1px solid var(--on-tomato); border-radius: 3px; }
+.segments input:checked + label { background: var(--brand-red); border-color: var(--brand-red); color: #fff; }
+.segments input:focus-visible + label { outline: 3px solid var(--cheese); outline-offset: 2px; }
+.hint { font-size: 1rem; line-height: 1.45; }
+
+.ticket {
+  background: var(--ticket); color: var(--ink);
+  padding: 1.5rem 1.25rem 1.25rem;
+  display: grid; gap: 1rem;
+}
+.ticket-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; flex-wrap: wrap; border-bottom: 2px solid var(--ink); padding-bottom: 1rem; }
+.ball-num { font-family: var(--display); font-weight: 700; font-size: clamp(3rem, 13vw, 4.5rem); line-height: 1; color: var(--tomato); }
+.ball-num small { font-size: 0.45em; }
+.order { font-weight: 700; text-align: right; }
+.order span { display: block; font-weight: 400; color: var(--muted); font-size: 1rem; }
+.ticket table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.ticket th { text-align: left; font-family: var(--display); font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--muted); padding: 0 0 0.35rem; }
+.ticket td { padding: 0.6rem 0; border-top: 1px solid var(--rule); vertical-align: top; }
+.ticket th.num, .ticket td.num { text-align: right; white-space: nowrap; padding-left: 0.75rem; }
+.ticket td.g { font-family: var(--display); font-size: 1.2rem; font-weight: 700; line-height: 1.4; }
+.ticket td.pct { color: var(--muted); font-family: var(--display); font-size: 0.85rem; }
+.ing-note { display: block; color: var(--muted); font-size: 1rem; }
+.ticket-foot { border-top: 1px solid var(--rule); padding-top: 1rem; display: grid; gap: 0.35rem; font-size: 1.0625rem; }
+.ticket-foot b { font-weight: 700; }
+
+/* Numbered steps: every list here is a real sequence */
+.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 1.1rem; }
+.steps > li { counter-increment: s; display: grid; grid-template-columns: 2.5rem 1fr; gap: 0.75rem; align-items: baseline; }
+.steps > li::before { content: counter(s); font-family: var(--display); font-weight: 700; font-size: 1.35rem; line-height: 1.2; color: var(--tomato); text-align: right; }
+.steps > li > div { display: grid; gap: 0.5rem; min-width: 0; }
+
+.two { display: grid; gap: 2.5rem; align-items: start; }
+@media (min-width: 56rem) { .two { grid-template-columns: 1fr 1fr; gap: 3.5rem; } }
+
+/* Marks everything that did not come from Sam */
+.mine {
+  border-left: 5px solid var(--cheese);
+  background: var(--cheese-wash);
+  color: var(--ink);
+  padding: 0.75rem 1rem;
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+.mine b { display: block; }
+.plain-note { color: var(--muted); font-size: 1rem; }
+
+/* Sauce recipes */
+.recipe { display: grid; gap: 0.85rem; }
+.ingredients { list-style: none; margin: 0; padding: 0; }
+.ingredients li { padding: 0.5rem 0; border-top: 1px solid var(--rule); }
+.ingredients li:last-child { border-bottom: 1px solid var(--rule); }
+.ingredients b { display: inline-block; min-width: 4.5rem; font-family: var(--display); }
+
+/* Bake time table */
+.scroll { overflow-x: auto; }
+.times { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+.times th, .times td { text-align: left; padding: 0.6rem 1rem 0.6rem 0; border-top: 1px solid var(--rule); }
+.times thead th { border-top: 0; color: var(--muted); font-weight: 400; font-size: 1rem; }
+.times tbody th { font-weight: 700; }
+.times tr.current th, .times tr.current td { color: var(--tomato); font-weight: 700; }
+
+/* Troubleshooting */
+.fixes { display: grid; gap: 1.25rem; }
+.fixes > div { display: grid; gap: 0.25rem; border-top: 1px solid var(--rule); padding-top: 0.85rem; }
+.fixes .tag { color: var(--muted); font-size: 1rem; }
+@media (min-width: 48rem) { .fixes { grid-template-columns: 1fr 1fr; gap: 1.5rem 2.5rem; } }
+
+/* Sources */
+.sources-list { margin: 0; padding-left: 1.25rem; display: grid; gap: 0.45rem; }
+footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 1rem; }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+@media print {
+  :root, :root[data-theme="dark"] {
+    --tile: #fff; --ticket: #fff; --ink: #000; --muted: #333; --rule: #999;
+    --tomato: #000; --brand-red: #000; --band: #fff; --on-tomato: #000; --cheese: #000; --cheese-wash: #fff;
+    --hero: #fff; --on-hero: #000; --hero-accent: #000; --nav: #fff; --on-nav: #000;
+    color-scheme: light;
+  }
+  body { font-size: 11pt; }
+  .jump, .controls, .hint { display: none; }
+  .block, .band { padding: 1rem 0; }
+  .dough-grid { display: block; }
+  .ticket { border: 1px solid #000; }
+  .steps > li, .ticket, .mine, .recipe { break-inside: avoid; }
+  h2 { break-after: avoid; }
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <h1>New York <span>pizza at home</span></h1>
+    <p class="lede">Dough, sauce and baking from Dough Guy's Shorts and calculator, gathered in one place for a 500°F oven, a steel and a peel.</p>
+  </div>
+</header>
+
+<div class="notice"><div class="wrap"><p class="byline">These are unofficial personal notes on the method taught by Sam, who posts as <a href="https://www.tiktok.com/@itsdoughguy">Dough Guy</a>. Claude compiled them. This page isn't made by, or affiliated with, Dough Guy, though its colors and fonts are modeled on his site. Yellow-striped boxes and anything labelled "mine" are Claude's suggestions, not Sam's.</p></div></div>
+
+<nav class="jump" aria-label="Sections">
+  <ul>
+    <li><a href="#plan">Plan</a></li>
+    <li><a href="#dough">Dough</a></li>
+    <li><a href="#sauce">Sauce</a></li>
+    <li><a href="#bake">Bake</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<section id="plan" class="block">
+  <div class="wrap">
+    <h2>Start three days ahead</h2>
+    <ol class="timeline">
+      <li><span class="when">3 days before</span><div><p>Mix the dough, rest it, shape the balls and refrigerate them.</p><p>About 10 minutes of hands-on work, plus 11 minutes in the mixer and a 1 to 2 hour rest.</p></div></li>
+      <li><span class="when">5 hours before</span><div><p>Take the dough out of the fridge and leave it covered on the counter.</p><p>Sam's newest advice is 4 to 5 hours. It's ready when a poke doesn't spring back.</p></div></li>
+      <li><span class="when">1 hour before</span><div><p>Put the steel in the top third of the oven and set it to 500°F.</p><p>Make the sauce and grate the cheese while it heats.</p></div></li>
+      <li><span class="when">Bake time</span><div><p>Stretch, top, launch and bake.</p><p>Sam bakes for 6 to 8 minutes at 550°F. My guess for 500°F is 8 to 10.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section id="dough" class="band">
+  <div class="wrap">
+    <h2>Dough</h2>
+    <div class="dough-grid">
+      <form class="controls" id="calc-form" aria-label="Dough calculator">
+        <div class="field">
+          <label class="field-head" for="size"><span>Pizza size</span><output class="readout" id="size-out" for="size">14"</output></label>
+          <input type="range" id="size" min="10" max="20" step="1" value="14">
+          <p class="hint">Sam makes 16" pizzas, and his steel is 16 × 16". My suggestion: if yours is smaller, pick a size an inch or two under the steel's width so the launch has room.</p>
+        </div>
+        <div class="field">
+          <label class="field-head" for="qty"><span>Number of pizzas</span><output class="readout" id="qty-out" for="qty">4</output></label>
+          <input type="range" id="qty" min="1" max="10" step="1" value="4">
+        </div>
+        <fieldset class="field">
+          <legend class="field-head">Thickness</legend>
+          <div class="segments">
+            <input type="radio" name="thickness" id="t-thin" value="1.8"><label for="t-thin">Thin</label>
+            <input type="radio" name="thickness" id="t-regular" value="2.11" checked><label for="t-regular">Regular</label>
+            <input type="radio" name="thickness" id="t-thick" value="2.75"><label for="t-thick">Thick</label>
+          </div>
+        </fieldset>
+      </form>
+
+      <div class="ticket" aria-live="polite">
+        <div class="ticket-head">
+          <div>
+            <div class="ball-num"><span id="r-ball">368</span><small> g</small></div>
+            <div>per dough ball</div>
+          </div>
+          <div class="order"><span id="r-order">4 balls, 14", regular</span></div>
+        </div>
+        <table>
+          <thead><tr><th scope="col">Ingredient</th><th scope="col" class="num">Weight</th><th scope="col" class="num">Baker's %</th></tr></thead>
+          <tbody id="r-rows"></tbody>
+        </table>
+        <div class="ticket-foot">
+          <div><b>Sauce per pizza:</b> <span id="r-sauce">6 Tbsp (about 95 g)</span>, scaled from Sam's ½ cup on a 16"</div>
+          <div><b>Cheese per pizza:</b> about <span id="r-cheese">155</span> g, my starting amount</div>
+          <div><b>Bake:</b> <span id="r-bake">6 to 8 minutes</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" aria-label="Dough method">
+  <div class="wrap two">
+    <div class="stack">
+      <h3>Make the dough</h3>
+      <ol class="steps">
+        <li><div>Weigh the cold water into the mixer bowl. Sam aims for about 40°F. If your water isn't that cold, swap up to a quarter of its weight for ice, counting the ice as part of the total.</div></li>
+        <li><div>Add the yeast, flour and olive oil. Weigh the salt and sugar separately and set them aside.</div></li>
+        <li><div>Start the mixer on low with the dough hook and set a timer for 11 minutes.</div></li>
+        <li><div>After 2 minutes, add the salt and sugar. Let it run for the rest of the time.</div></li>
+        <li><div>Check the dough temperature. Aim for about 70°F, and no higher than 74°F.</div></li>
+        <li><div>Knead briefly into a ball, return it to the bowl, cover and rest for 1 to 2 hours.</div></li>
+        <li><div>Cut pieces to the ball weight on the ticket. Fold the edges in on all sides, then pinch the seam shut like a dumpling. Pat each ball with wet hands so it doesn't dry out.</div></li>
+        <li><div>Put each ball in a sealable container coated with olive oil or nonstick spray.</div></li>
+        <li><div>Refrigerate for 3 to 5 days.</div></li>
+      </ol>
+    </div>
+    <div class="stack">
+      <p><b>Longer is fine.</b> Sam says the dough stays good for up to about a week, and it gets easier to stretch with time. It also browns faster: he bakes week-old dough for 5 to 6 minutes.</p>
+      <p><b>Flour.</b> Use bread flour, with 12 to 14% protein. In Sam's five-brand test from October 2026, Gold Medal and Lehi Mills were his favorites, the least sticky and the best at holding their shape. He also lists King Arthur among the flours he uses. Any bread flour made good pizza, but the others needed a couple of extra stretch and folds.</p>
+      <p><b>Sugar.</b> It's there to brown the crust and doesn't make it sweet.</p>
+      <p class="plain-note">Sam's technique has changed over time, so where his sources disagree this page follows the newest. His calculator page still says 2 to 4 days cold, a rest of 1 to 3 hours and water under 60°F. The steps here come from his September 2026 dough video, whose 6 × 16" recipe matches the calculator gram for gram.</p>
+    </div>
+  </div>
+</section>
+
+<section id="sauce" class="block" style="padding-top:0">
+  <div class="wrap">
+    <div class="stack measure">
+      <h2>Sauce</h2>
+      <p>You don't cook it, and it takes about 2 minutes. Sam mixes it right in the can.</p>
+    </div>
+    <div class="two">
+      <div class="recipe">
+        <h3>Current go-to New York sauce</h3>
+        <ul class="ingredients">
+          <li><b>28 oz</b> can crushed or whole peeled tomatoes</li>
+          <li><b>2 tsp</b> salt</li>
+          <li><b>2 tsp</b> oregano</li>
+          <li><b>3 tsp</b> dried basil, or fresh if you have it</li>
+          <li><b>1 tsp</b> sugar, or a pinch of baking soda, to balance acidity (optional)</li>
+        </ul>
+        <p>Mix it up. If it's chunky, use an immersion blender on low for just a couple of seconds, since you don't want to over-blend it.</p>
+      </div>
+      <div class="recipe">
+        <h3>Older simple sauce, from 2025</h3>
+        <ul class="ingredients">
+          <li><b>1 can</b> tomatoes</li>
+          <li><b>4 g</b> salt</li>
+          <li><b>Splash</b> of olive oil, optional</li>
+        </ul>
+        <p>Blend. Then add oregano, basil or garlic to the pizza under the cheese, so you can change them pie to pie.</p>
+      </div>
+    </div>
+    <div class="stack measure">
+      <p><b>Tomatoes:</b> Sam's favorite is Bianco DiNapoli, sold at Target and Whole Foods, and he has made plenty of pizzas with Cento too.</p>
+      <p><b>Storage:</b> Keep it in the can under plastic wrap or in a sealed container for about a week in the fridge. Freeze whatever you won't use by then.</p>
+      <div class="mine">
+        <b>Not from Sam: yield and salt</b>
+        By my math, a 28 oz can makes roughly 3¼ cups, enough for about six 16" pizzas. Sam's older simple version has about a third of the salt, so taste the go-to version and adjust to your tomatoes.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="bake" class="block" style="padding-top:0">
+  <div class="wrap">
+    <h2>Build and bake</h2>
+    <div class="two">
+      <ol class="steps">
+        <li><div><h3>Warm the dough</h3><p>Leave it out, untouched, for 4 to 5 hours. A cold ball is small and firm and springs back. It's ready when you poke it and it doesn't spring back. In a hurry, put it in the turned-off oven with the light on for 1 to 2 hours, and take it out before you preheat.</p></div></li>
+        <li><div><h3>Heat the steel</h3><p>Put the steel in the top third of the oven, leaving enough room to launch. Sam's is usually on the second rack position. Preheat at the oven's highest setting for 45 minutes to an hour. Your oven reaching temperature doesn't mean the steel has.</p>
+          <div class="mine"><b>Not from Sam: at 500°F, use the full hour</b>Sam's oven tops out at 550°F, so yours has 50° less to work with. A full preheat helps make up the difference.</div></div></li>
+        <li><div><h3>Prep the toppings</h3><p>Use low-moisture mozzarella and shred it yourself, since the coating on pre-shredded melts less well. Sam blends whole milk and part-skim 50/50: whole milk melts and tastes better, and part-skim browns more. Grande is his top brand, and he mostly buys from Trader Joe's. In a late October video, he says he really likes cubed cheese too.</p></div></li>
+        <li><div><h3>Stretch</h3><p>Flour the counter and coat both sides of the dough. With your fingertips, form a crust just inside the edge and press the air out of the middle. Flip and repeat until it's a bit bigger than your hand.</p>
+          <p>Shake off the excess flour. Drape the edge over your knuckles and turn it slowly, letting gravity pull it down. Watch for thin spots and stay away from them, because a thin center bakes up soggy. If it tears, pinch it closed.</p></div></li>
+        <li><div><h3>Top it on the peel</h3><p>Spread a thin layer of semolina on the peel. Regular flour works too, but tends to burn. Sam recommends a wooden peel, and assembling right on it. Lay the dough down and shape it into a circle.</p>
+          <p>Pour on the sauce and quickly spiral it out from the middle so it doesn't pool. Add a pinch of pecorino Romano on the sauce, then low-moisture mozzarella. Go lighter than you think, and let some sauce show. Add a few pieces of fresh mozzarella for taste, but not many, because of the water. If the dough shrank back, the toppings' weight now lets you stretch it into place with your fingers.</p></div></li>
+        <li><div><h3>Launch</h3><p>Shake the peel at the start, middle and end of topping to check it's loose. Come in almost flat over the steel, shake until the pizza starts to slide off, and pull the peel out. A steep angle sends the toppings sliding.</p></div></li>
+        <li><div><h3>Bake</h3><p>Bake using the times in the table. Sam often turns on the broiler for the last 1 to 2 minutes for extra char on top. In his October flour test, he baked for 7 minutes and broiled for 1.</p></div></li>
+        <li><div><h3>Finish</h3><p>Move the pizza to a wire rack for a minute or two so it doesn't go soggy. Sam finishes with extra virgin olive oil on the crust and plenty of parmesan.</p></div></li>
+      </ol>
+      <div class="stack">
+        <div class="scroll">
+          <table class="times" aria-label="Sam's bake times by thickness">
+            <thead><tr><th scope="col">Thickness</th><th scope="col">Sam's oven</th><th scope="col">Sam's time</th></tr></thead>
+            <tbody>
+              <tr id="time-thin"><th scope="row">Thin</th><td>550°F</td><td>4 to 5 min</td></tr>
+              <tr id="time-regular"><th scope="row">Regular</th><td>550°F</td><td>6 to 8 min</td></tr>
+              <tr id="time-thick"><th scope="row">Thick</th><td>450°F</td><td>10 to 12 min</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="mine">
+          <b>Not from Sam: baking at 500°F</b>
+          I couldn't find a 500°F time from Sam. My untested guess for a regular pizza is 8 to 10 minutes, including 1 to 2 under the broiler if the top needs it. Judge by color, and write down what works for your oven. Let the steel reheat for about 10 minutes between pizzas.
+        </div>
+        <div class="mine">
+          <b>Not from Sam: cheese amount</b>
+          Sam gives no weight, only that he keeps it light. The ticket starts at about 200 g on a 16" pizza and scales with size.
+        </div>
+        <p><b>Check your oven.</b> Sam suggests testing with an oven thermometer. Some ovens can be recalibrated, as your manual will explain. He notes this could raise the maximum by about 30°F in theory, but says he isn't recommending it.</p>
+      </div>
+    </div>
+
+    <h3>If something goes wrong</h3>
+    <div class="fixes">
+      <div><b>The dough snaps back</b><p>It's almost always too cold. Give it more time on the counter and use the poke test.</p></div>
+      <div><b>The dough is sticky</b><p>Don't add more flour. Check your water weight, including the ice. Then do 2 or 3 stretch and folds, 30 minutes apart. If it's still wet, use a little less water next time. Dough that turns sticky later may be over-fermented.</p></div>
+      <div><b>The pizza sticks to the peel</b><p>Lift the crust at that spot and give it a quick blow, or puff air under it with an empty squeeze bottle. That moves the semolina back under the dough.</p></div>
+      <div><b>The launch missed</b><p>Bake for a minute until the crust hardens, then reposition it.</p></div>
+      <div><b>The bottom burns before the top is done</b><p>Move the steel up a rack.</p></div>
+      <div><b>The bottom is pale</b><p>Move the steel down a rack, and make sure it had a full preheat.</p></div>
+      <div><b>The center is soggy or floppy</b><p>Use less sauce and fewer toppings, and avoid thin spots in the center. Sam's rule is that you should still see some sauce.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="sources" class="block" style="padding-top:0">
+  <div class="wrap">
+    <div class="stack measure">
+      <h2>Sources</h2>
+      <p>Everything not marked as mine comes from Sam's site or Shorts. Watch these for the hand movements, especially stretching and launching.</p>
+      <ul class="sources-list">
+        <li><a href="https://doughguy.co/pages/dough">Dough calculator</a>, which also has a gluten-free option</li>
+        <li><a href="https://www.youtube.com/watch?v=TnP5xFVMVqM">Homemade Pizza 101</a>, Sep 2026</li>
+        <li><a href="https://www.youtube.com/watch?v=-br4JzqmFl8">The best NY style dough recipe</a>, May 2026</li>
+        <li><a href="https://www.youtube.com/watch?v=D40OMdLDCtU">The best homemade pizza dough recipe</a>, Sep 2026</li>
+        <li><a href="https://www.youtube.com/watch?v=yGuIpn3pqsQ">NY style pizza sauce</a>, Aug 2026</li>
+        <li><a href="https://www.youtube.com/watch?v=6eb08YapGw8">Pizza cheese 101</a>, Sep 2026</li>
+        <li><a href="https://www.youtube.com/watch?v=bWzAdQ8XAfI">How to stretch pizza dough</a>, Jun 2026</li>
+        <li><a href="https://www.youtube.com/watch?v=ls3rEroo-BM">How to launch a pizza</a>, Jul 2026</li>
+        <li><a href="https://www.youtube.com/watch?v=XoqXx2CC4zY">3 ways to make sure your pizza never sticks</a>, Sep 2026</li>
+        <li><a href="https://www.youtube.com/watch?v=laNE1A2ISEY">The best position for your pizza steel</a>, Oct 2026</li>
+        <li><a href="https://www.youtube.com/watch?v=eYRIq83d-rY">5 biggest beginner pizza mistakes</a>, Sep 2026</li>
+        <li><a href="https://www.youtube.com/watch?v=EkLzJYGFDO0">Why is my pizza dough so sticky?</a>, Oct 2026</li>
+        <li><a href="https://www.youtube.com/watch?v=fbVWESy7u18">How to calibrate your home oven</a>, Aug 2026</li>
+        <li><a href="https://www.youtube.com/watch?v=_ayoEmmwOes">How to warm up dough fast</a>, Oct 2026</li>
+        <li><a href="https://www.youtube.com/watch?v=3xEGMsonRlU">Does your pizza flour actually matter?</a>, Oct 2026</li>
+        <li><a href="https://www.youtube.com/watch?v=aI-JvrvypXU">Making pizza without pizza equipment</a>, Oct 2026</li>
+        <li><a href="https://www.youtube.com/@itsdoughguy/shorts">All of Sam's Shorts</a></li>
+      </ul>
+      <p class="plain-note">Compiled from the site's calculator code, video descriptions and auto-generated transcripts of 21 of his roughly 150 Shorts. YouTube blocked further requests, so the other videos haven't been checked. Nobody watched the footage for this, so anything Sam only shows on screen may be missing.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">Recipes and method by Sam (Dough Guy). Compiled by Claude for home use.</div>
+</footer>
+
+<script>
+/* calc:start */
+function doughCalc(size, qty, thickness) {
+  // Regular-dough branch of the formula in doughguy.co's dg-calculator.js.
+  var flour = 1509.797685 * (480 / 425) * Math.pow(size / 16, 2) * (qty / 6) * (thickness / 2.11);
+  return {
+    flour: Math.round(flour),
+    water: Math.round(flour * 0.62),
+    yeast: (flour * 0.004).toFixed(1),
+    salt: Math.round(flour * 0.025),
+    sugar: Math.round(flour * 0.02),
+    oil: Math.round(flour * 0.033),
+    ball: Math.round(flour * (2550 / 1509.797685) / qty)
+  };
+}
+function toppingAmounts(size) {
+  // Sauce: Sam's 1/2 cup (8 Tbsp, about 125 g) on a 16" pizza, scaled by area.
+  // Cheese: not from Sam. A 200 g starting amount on a 16" pizza, scaled by area.
+  var area = Math.pow(size / 16, 2);
+  return {
+    sauceTbsp: Math.round(8 * area),
+    sauceGrams: Math.round(125 * area / 5) * 5,
+    cheese: Math.round(200 * area / 5) * 5
+  };
+}
+/* calc:end */
+
+(function () {
+  var byId = function (id) { return document.getElementById(id); };
+  var size = byId("size"), qty = byId("qty");
+  var names = { "1.8": "thin", "2.11": "regular", "2.75": "thick" };
+  var bake = {
+    thin: "Sam: 4 to 5 minutes at 550°F. Check early and judge by color",
+    regular: "Sam: 6 to 8 minutes at 550°F. My guess at 500°F: 8 to 10",
+    thick: "Sam: 10 to 12 minutes at 450°F"
+  };
+  var STORE = "ny-pizza-calc";
+
+  function thickness() {
+    return document.querySelector('input[name="thickness"]:checked').value;
+  }
+
+  function row(name, note, grams, pct) {
+    var noteHtml = note ? '<span class="ing-note">' + note + "</span>" : "";
+    return "<tr><td>" + name + noteHtml + '</td><td class="num g">' + grams +
+      ' g</td><td class="num pct">' + pct + "</td></tr>";
+  }
+
+  function render() {
+    var s = +size.value, q = +qty.value, t = thickness();
+    var r = doughCalc(s, q, +t), top = toppingAmounts(s), name = names[t];
+    byId("size-out").textContent = s + '"';
+    byId("qty-out").textContent = q;
+    byId("r-ball").textContent = r.ball;
+    byId("r-order").textContent = q + (q === 1 ? " ball, " : " balls, ") + s + '", ' + name;
+    byId("r-rows").innerHTML =
+      row("Bread flour", "12 to 14% protein", r.flour, "100%") +
+      row("Water", "About 40°F. Up to " + Math.round(r.water * 0.25) + " g can be ice", r.water, "62%") +
+      row("Active dry yeast", "", r.yeast, "0.4%") +
+      row("Salt", "", r.salt, "2.5%") +
+      row("Sugar", "", r.sugar, "2%") +
+      row("Olive oil", "", r.oil, "3.3%");
+    byId("r-sauce").textContent = (top.sauceTbsp === 8 ? "½ cup" : top.sauceTbsp + " Tbsp") + " (about " + top.sauceGrams + " g)";
+    byId("r-cheese").textContent = top.cheese;
+    byId("r-bake").textContent = bake[name];
+    ["thin", "regular", "thick"].forEach(function (n) {
+      byId("time-" + n).classList.toggle("current", n === name);
+    });
+    try { localStorage.setItem(STORE, JSON.stringify({ s: s, q: q, t: t })); } catch (e) {}
+  }
+
+  try {
+    var saved = JSON.parse(localStorage.getItem(STORE) || "null");
+    if (saved && names[saved.t]) {
+      size.value = saved.s;
+      qty.value = saved.q;
+      byId("t-" + names[saved.t]).checked = true;
+    }
+  } catch (e) {}
+
+  byId("calc-form").addEventListener("input", render);
+  byId("calc-form").addEventListener("submit", function (e) { e.preventDefault(); });
+  render();
+})();
+</script>
+</body>
+</html>
