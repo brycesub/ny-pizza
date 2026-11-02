@@ -23,6 +23,6 @@ The page was compiled with Claude from the code behind Sam's calculator, his vid
 
 ## Making changes
 
-Everything is in one file, `index.html`, with no build step or dependencies apart from Google Fonts. To preview it, open the file in a browser.
+The page is one file, `index.html`, with no build step or dependencies apart from Google Fonts. `apple-touch-icon.png` is its home screen icon. To preview it, open the file in a browser.
 
 GitHub Pages publishes from the root of `main`, so pushing to `main` updates the live page.
