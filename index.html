@@ -89,6 +89,13 @@ p { margin: 0; }
 .masthead { background: var(--hero); color: var(--on-hero); padding: 3rem 0 2.75rem; }
 .masthead .wrap { display: grid; gap: 1.1rem; }
 .lede { font-size: 1.3rem; font-weight: 700; line-height: 1.4; max-width: 38rem; }
+.dg-links { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; margin-top: 0.4rem; font-family: var(--display); font-weight: 700; font-size: 0.95rem; text-transform: uppercase; }
+.dg-links a { color: var(--on-hero); display: inline-block; padding: 0.6rem 0; min-height: 44px; line-height: 1.6; }
+.dg-links a:hover { color: var(--hero-accent); }
+.dg-links a.buy { background: var(--hero-accent); color: #1a1a1a; padding: 0.6rem 1rem; border-radius: 3px; text-decoration: none; }
+.dg-links a.buy:hover { background: #fff; color: #1a1a1a; }
+.dg-links ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0 1.25rem; }
+.masthead :focus-visible { outline-color: #fff; }
 .notice { padding: 1rem 0; border-bottom: 1px solid var(--rule); }
 .byline { color: var(--ink); font-size: 1rem; max-width: 42rem; }
 
@@ -243,6 +250,15 @@ footer { padding: 2rem 0 3rem; color: var(--muted); font-size: 1rem; }
   <div class="wrap">
     <h1>New York <span>pizza at home</span></h1>
     <p class="lede">Dough, sauce and baking from Dough Guy's Shorts and calculator, gathered in one place for a 500°F oven, a steel and a peel.</p>
+    <nav class="dg-links" aria-label="Dough Guy's site and socials">
+      <a class="buy" href="https://doughguy.co/products/order">Buy his pizza steel</a>
+      <ul>
+        <li><a href="https://doughguy.co">Website</a></li>
+        <li><a href="https://www.youtube.com/@itsdoughguy">YouTube</a></li>
+        <li><a href="https://www.instagram.com/itsdoughguy/">Instagram</a></li>
+        <li><a href="https://www.tiktok.com/@itsdoughguy">TikTok</a></li>
+      </ul>
+    </nav>
   </div>
 </header>
 
